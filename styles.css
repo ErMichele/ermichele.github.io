@@ -8,20 +8,17 @@ body {
 }
 
 header {
-	background-color: rgb(84, 115, 173);
-	color: var(--extremes_content_color);
-
+	background-color: #4a7298;
 	text-align: center;
-
 	width: 100%;
 	top: 0;
-
-	padding-top: 40px;
-	padding-bottom: 40px;
+	padding-top: 30px;
+    padding-bottom: 30px;
 }
 
 .social-buttons {
-    margin: 20px;
+    margin-bottom: 2px;
+    margin-top: 0;
 }
 
 .social-btn {
@@ -52,12 +49,13 @@ header {
 
 
 .social-btn:hover {
-    background-color: #0e4817;
+    background-color: #0d3b23;
     transform: scale(1.1);
 }
 
 footer {
-    margin-top: 5px;
     font-size: 17px;
     position: sticky;
+    background-color: #0000a0;
+    padding-bottom: 1px;
 }
