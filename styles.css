@@ -2,17 +2,16 @@ body {
     background-color: #13497b;
     color: #66ac78;
     font-family: 'Times New Roman', Times, serif;
-    text-align: center;
     margin: 0;
     padding: 0;
 }
 
 header {
-	background-color: #4a7298;
-	text-align: center;
-	width: 100%;
-	top: 0;
-	padding-top: 30px;
+    background-color: #4a7298;
+    text-align: center;
+    width: 100%;	
+    top: 0;
+    padding-top: 30px;
     padding-bottom: 30px;
 }
 
@@ -58,4 +57,5 @@ footer {
     position: sticky;
     background-color: #0000a0;
     padding-bottom: 1px;
+    text-align: center;
 }
