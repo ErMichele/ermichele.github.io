@@ -1,0 +1,63 @@
+body {
+    background-color: #13497b;
+    color: #66ac78;
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+	background-color: rgb(84, 115, 173);
+	color: var(--extremes_content_color);
+
+	text-align: center;
+
+	width: 100%;
+	top: 0;
+
+	padding-top: 40px;
+	padding-bottom: 40px;
+}
+
+.social-buttons {
+    margin: 20px;
+}
+
+.social-btn {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    margin: 0 10px;
+    background-color: #1a1a1a;
+    border-radius: 50%;
+    overflow: hidden;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.social-btn img {
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
+    margin: 15%;
+}
+
+/*Solo per Github*/
+.social-btn.github img {
+    width: 90%;  
+    height: 90%; 
+    margin: 5%;  
+}
+
+
+.social-btn:hover {
+    background-color: #0e4817;
+    transform: scale(1.1);
+}
+
+footer {
+    margin-top: 5px;
+    font-size: 17px;
+    position: sticky;
+}
