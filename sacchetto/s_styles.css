@@ -1,0 +1,23 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;    
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    margin-bottom: 10px;
+    padding: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background: rgba(34, 162, 105, 0.2);
+    color: rgba (0, 0, 0, 0.2);
+    border: 1px solid rgba(5, 59, 20, 0.2);
+    border-radius: 1cm;
+}
+footer{
+    position:sticky;
+}
