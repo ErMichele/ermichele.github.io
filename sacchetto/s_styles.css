@@ -13,9 +13,9 @@ button {
     font-size: 12px;
     cursor: pointer;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    background: rgba(34, 162, 105, 0.2);
+    background: rgba(168, 105, 22, 0.2);
     color: rgba (0, 0, 0, 0.2);
-    border: 1px solid rgba(5, 59, 20, 0.2);
+    border: 1px solid rgba(163, 130, 22, 0.2);
     border-radius: 1cm;
 }
 footer{
