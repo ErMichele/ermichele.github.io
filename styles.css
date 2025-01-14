@@ -17,14 +17,14 @@ header {
 
 h2 {
     text-align: center;
+    font-size: 30px;
     color: cadetblue;
     margin-top: 3px;
     margin-bottom: 3px;
-
 }
 
 .testo {
-    margin: 10px;
+    margin: 7px;
 }
 
 #Introduzione img {
@@ -43,7 +43,7 @@ h2 {
     background-color: rgb(2, 18, 47);
     margin-left: 2.5%;
     margin-right: 2.5%;
-    border-radius: 1%;
+    border-radius: 2%;
 }
 
 .link-segreti{
