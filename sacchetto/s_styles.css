@@ -3,10 +3,15 @@ body {
     padding: 0;
     height: 100vh;    
     align-items: center;
+    text-align: center;
     display: flex;
     flex-direction: column;
+    background-color: rgb(18, 16, 16);
+    color:rgb(255, 248, 220);
 }
-
+header {
+    margin-bottom: 0%;
+}
 button {
     margin-bottom: 10px;
     padding: 5px;
@@ -14,7 +19,7 @@ button {
     cursor: pointer;
     font-family: Georgia, 'Times New Roman', Times, serif;
     background: rgba(168, 105, 22, 0.2);
-    color: rgba (0, 0, 0, 0.2);
+    color : rgba(255, 248, 220, 0.497);
     border: 1px solid rgba(163, 130, 22, 0.2);
     border-radius: 1cm;
 }
