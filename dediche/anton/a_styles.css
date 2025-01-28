@@ -7,7 +7,7 @@ body {
     align-items: center;
     justify-content: space-between;
     background-color: rgb(18, 16, 16);
-    color: rgb(255, 248, 220);
+    color: rgb(106, 40, 137);
     text-align: center;
 }
 
@@ -43,9 +43,9 @@ button {
     font-size: 12px;
     cursor: pointer;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    background: rgba(168, 105, 22, 0.2);
-    color: rgba(255, 248, 220, 0.497);
-    border: 1px solid rgba(163, 130, 22, 0.2);
+    background: rgba(107, 22, 168, 0.2);
+    color: rgba(102, 68, 148, 0.497);
+    border: 1px solid rgba(20, 2, 33, 0.2);
     border-radius: 1cm;
 }
 
