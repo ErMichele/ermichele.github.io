@@ -17,6 +17,15 @@ function calcolaEta() {
     if (oggi.getMonth() < dataDiNascita.getMonth() || (oggi.getMonth() === dataDiNascita.getMonth() && oggi.getDate() < dataDiNascita.getDate())) {
         eta--;
     }
-    document.getElementById("età").textContent = eta;
+    document.getElementById("Età").textContent = eta;
 }
 window.onload = calcolaEta;
+
+const coloriSfondo = ["#f0f0f0", "#ffcc00", "#66ac78", "#e74c3c", "#8e44ad"];
+document.addEventListener("DOMContentLoaded", function() {
+    let progetti = document.querySelectorAll(".progetto");  
+    progetti.forEach(progetto => {
+        progetto.style.backgroundColor = coloriSfondo[Math.floor(Math.random() * coloriSfondo.length)];  
+    });
+});
+
