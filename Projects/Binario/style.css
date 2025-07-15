@@ -1,0 +1,95 @@
+/* Reset e base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #1e3c72, #2a5298);
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 90%;
+    max-width: 600px;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.istruzioni {
+    margin-bottom: 20px;
+    font-size: 1.1em;
+    line-height: 1.4;
+}
+
+.conversione-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.binario-display {
+    font-size: 1.5em;
+    font-weight: bold;
+    background-color: #222;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 2px solid #fff;
+}
+
+.uguale {
+    font-size: 1.5em;
+}
+
+input[type="number"] {
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    width: 150px;
+}
+
+#Invio {
+    padding: 10px 20px;
+    background-color: #00b894;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#Invio:hover {
+    background-color: #019875;
+}
+
+.risultato {
+    margin-top: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+footer {
+    margin-top: 30px;
+    font-size: 0.9em;
+    color: #ccc;
+}

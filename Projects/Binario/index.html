@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indovinello Informatica - Pagina TrED</title>
+    <meta name="description" content="Indovina il numero binario e converti in decimale per scoprire la prossima aula.">
+    <meta name="keywords" content="indovinello, informatica, binario, decimale, aula, gioco, conversione">
+    <meta name="author" content="Michele Acciuffi & Riccardo Bottoni">
+    <link rel="icon" href="Resources/Icon/Icona.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Indovina il numero!</h1>
+        </header>
+
+        <main>
+            <p class="istruzioni">Converti il numero <strong>binario</strong> in <strong>decimale</strong> per scoprire la prossima aula:</p>
+
+            <div class="conversione-box">
+                <span id="Numero-Binario" class="binario-display"></span>
+                <span class="uguale">=</span>
+                <input type="number" id="Numero-Decimale" placeholder="Inserisci decimale..." required>
+            </div>
+
+            <button id="Invio">Verifica</button>
+            <p id="Risultato" class="risultato"></p>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Michele Acciuffi & Riccardo Bottoni</p>
+        </footer>
+    </div>
+</body>
+</html>
