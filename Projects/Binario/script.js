@@ -8,8 +8,8 @@ let attemptCount = 0;
 const maxAttempts = 3;
 
 // 
-const correctSound = new Audio('Resources/Sounds/Right-Answer.mp3');
-const wrongSound = new Audio('Resources/Sounds/Wrong-Answer.mp3');
+const correctSound = new Audio('Resources/SFX/Right-Answer.mp3');
+const wrongSound = new Audio('Resources/SFX/Wrong-Answer.mp3');
 
 // Funzione per generare un numero casuale e mostrarlo in binario
 function generateRandomBinary() {
