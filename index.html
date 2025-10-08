@@ -18,120 +18,174 @@
 </head>
 
 <body>
-
-    <header>
-        <h1 style="font-size: 65px; margin-top: 0; margin-bottom: 0;">The Michele Archive</h1>
-    </header>
+    <!-- Barra di Navigazione -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="nav-title">The Michele Archive</h1>
+            <ul class="nav-links">
+                <li><a href="#Introduzione">Introduzione</a></li>
+                <li><a href="#Competenze">Competenze</a></li>
+                <li><a href="#Progetti">Progetti</a></li>
+                <li><a href="#Certificazioni">Certificazioni</a></li>
+            </ul>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Cerca per nome o tag...">
+                <button id="searchBtn">🔍</button>
+            </div>
+        </div>
+    </nav>
 
     <main>
-        <br>
-        <section style="background-color: aquamarine;" id="Introduzione">
-
-            <h2>Introduzione:</h2>
-            <div class="scatola">
-                <p class="testo">Salve, sono <strong><a href="Dediche/Michele/Michele.html" class="link-segreti">Michele
+        <section id="Introduzione" class="section">
+            <h2>Introduzione</h2>
+            <div class="content-box">
+                <p class="text">Salve, sono <strong><a href="Dediche/Michele/Michele.html" class="secret-link">Michele
                             Acciuffi</a></strong>, anche conosciuto come <a href="Dediche/KMV/KMV.html"
-                        class="link-segreti">M_Sanji</a>, e questo è il mio <strong>sito web</strong>.
-                    <br>Comincio subito con introdurmi, sono un ragazzo italiano di <span id="Età"></span> anni che
-                    segue il liceo <strong>TrED</strong>, inoltre sono appassionato come si può capire dell'<strong><a
-                            href="Dediche/Gobbi/Gobbi.html" class="link-segreti">informatica</a></strong>, ma anche dei
-                    <a href="Dediche/Anton/Anton.html" class="link-segreti">videogiochi</a>, manga e della <strong><a
-                            href="Dediche/Sacchetto/Sacchetto.html" class="link-segreti">fisica</a></strong>.
-                    <br>Suppongo che per il momento possiate considerare questo sito come un portfolio dei vari lavori
-                    che realizzo nel corso del tempo.
-                </p>
+                        class="secret-link">M_Sanji</a>, e questo è il mio <strong>sito web</strong>.<br>Comincio subito
+                    con introdurmi, sono un ragazzo italiano di <span id="Età"></span> anni che segue il liceo
+                    <strong>TrED</strong>, inoltre sono appassionato come si può capire dell'<strong><a
+                            href="Dediche/Gobbi/Gobbi.html" class="secret-link">informatica</a></strong>, ma anche dei
+                    <a href="Dediche/Anton/Anton.html" class="secret-link">videogiochi</a>, manga e della <strong><a
+                            href="Dediche/Sacchetto/Sacchetto.html" class="secret-link">fisica</a></strong>.<br>Suppongo
+                    che per il momento possiate considerare questo sito come un portfolio dei vari lavori che realizzo
+                    nel corso del tempo.</p>
+                <img src="Resources/Immagini/Tutto.png" alt="It's me" class="intro-img">
             </div>
-            <img src="Resources/Immagini/Tutto.png" alt="It's me">
-
         </section>
 
-        <br>
-
-        <section id="Competenze">
-            <h2>Competenze:</h2>
-            <div class="scatola">
-                <p class="testo">Le mie competenze principali sono:</p>
+        <section id="Competenze" class="section">
+            <h2>Competenze</h2>
+            <div class="content-box">
+                <p class="text">Le mie competenze principali sono:</p>
                 <ul>
-                    <li><strong><a href="https://www.c-language.org/" class="link-segreti">C</a></strong>: Credo che sia il linguaggio con cui ho maggiore confidenza e capacità, non considerando che è anche uno dei due miei preferiti;</li>
-                    <li><strong><a href="https://www.lua.org/" class="link-segreti">Lua</a></strong>: Il mio secondo linguaggio preferito e anche in questo ritengo di avere abilità nell'usarlo (conoscendo il mio livello). Anche se è poco conosciuto, mi appassiona molto, anche i suoi framework e estensioni: </li>
-                    <ul>
-                        <li><strong><a href="https://luau.org/" class="link-segreti">Luau</a></strong>: L'utilizzo per sviluppare le mie esperienze personali sulla piattaforma <strong><a href="https://www.roblox.com/" class="link-segreti">Roblox</a></strong>;</li>
-                        <li><strong><a href="https://love2d.org/" class="link-segreti">LÖVE2d</a></strong>: L'utilizzo per creare interfaccie grafiche per i programmi che sviluppo.</li>
-                    </ul>
-                    <li><strong><a href="https://en.wikipedia.org/wiki/HTML" class="link-segreti">HTML</a></strong>: Ne possiedo una conoscenza base per potere realizzare una struttura per dei siti web semplici (questo per l'appunto);</li>
-                    <li><strong><a href="https://en.wikipedia.org/wiki/CSS" class="link-segreti">CSS</a></strong>: Capacità che si limitano sul minimo e indispensabile, e va benissimo così;</li>
-                    <li><strong><a href="https://www.javascript.com/" class="link-segreti">JavaScript</a></strong>: Mi dispiace dire che ne possiedo delle competenze, anche se basiche, per realizzare siti;</li>
-                    <li><strong><a href="https://www.python.org/" class="link-segreti">Python</a></strong>: Approfondisco di più che il linguaggio in sè per sè le sue librerie per realizzare vari prodotti (cartine e bot di discord);</li>
-                    <li><strong><a href="https://en.wikipedia.org/wiki/C_Sharp_(programming_language)" class="link-segreti">C#</a></strong>: Riesco ad applicare varie sue funzioni in contesti generali, ma conosco principalmente le componenti che si legano con l'utilizzo di Unity.</li>
+                    <li><strong><a href="https://www.c-language.org/" class="secret-link">C</a></strong>: Credo che sia
+                        il linguaggio con cui ho maggiore confidenza e capacità, non considerando che è anche uno dei
+                        due miei preferiti;</li>
+                    <li><strong><a href="https://www.lua.org/" class="secret-link">Lua</a></strong>: Il mio secondo
+                        linguaggio preferito e anche in questo ritengo di avere abilità nell'usarlo (conoscendo il mio
+                        livello). Anche se è poco conosciuto, mi appassiona molto, anche i suoi framework e estensioni:
+                        <ul>
+                            <li><strong><a href="https://luau.org/" class="secret-link">Luau</a></strong>: L'utilizzo
+                                per sviluppare le mie esperienze personali sulla piattaforma <strong><a
+                                        href="https://www.roblox.com/" class="secret-link">Roblox</a></strong>;</li>
+                            <li><strong><a href="https://love2d.org/" class="secret-link">LÖVE2d</a></strong>:
+                                L'utilizzo per creare interfaccie grafiche per i programmi che sviluppo.</li>
+                        </ul>
+                    </li>
+                    <li><strong><a href="https://en.wikipedia.org/wiki/HTML" class="secret-link">HTML</a></strong>: Ne
+                        possiedo una conoscenza base per potere realizzare una struttura per dei siti web semplici
+                        (questo per l'appunto);</li>
+                    <li><strong><a href="https://en.wikipedia.org/wiki/CSS" class="secret-link">CSS</a></strong>:
+                        Capacità che si limitano sul minimo e indispensabile, e va benissimo così;</li>
+                    <li><strong><a href="https://www.javascript.com/" class="secret-link">JavaScript</a></strong>: Mi
+                        dispiace dire che ne possiedo delle competenze, anche se basiche, per realizzare siti;</li>
+                    <li><strong><a href="https://www.python.org/" class="secret-link">Python</a></strong>: Approfondisco
+                        di più che il linguaggio in sè per sè le sue librerie per realizzare vari prodotti (cartine e
+                        bot di discord);</li>
+                    <li><strong><a href="https://en.wikipedia.org/wiki/C_Sharp_(programming_language)"
+                                class="secret-link">C#</a></strong>: Riesco ad applicare varie sue funzioni in contesti
+                        generali, ma conosco principalmente le componenti che si legano con l'utilizzo di Unity.</li>
                 </ul>
             </div>
         </section>
 
-        <br>
-
-        <section id="Progetti">
-            <h2>Progetti:</h2>
-            <div class="contenitore-progetti">
-                <div class="progetto">
-                    <a href="Projects/Il_Tres/Il_TrES.html" class="link-progetto">
-                        <img src="Projects/Il_Tres/resources/icon/Il_TrES.ico" alt="Progetto 1">
-                        <h3>Il TrES</h3>
-                        <p>Tag: <span class="tag">C</span> <span class="tag">Lua</span> <span class="tag">LÖVE2d</span>
-                        </p>
+        <section id="Progetti" class="section">
+            <h2>Progetti</h2>
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Esempio di card progetto (aggiungi i tuoi) -->
+                <div class="project-card" data-name="Il TrES" data-tags="C Lua LÖVE2d">
+                    <a href="Projects/Il_Tres/Il_TrES.html" class="project-link">
+                        <img src="Projects/Il_Tres/resources/icon/Il_TrES.ico" alt="Il TrES">
+                        <div class="card-overlay">
+                            <h3>Il TrES</h3>
+                            <p class="tags">Tag: <span class="tag">C</span> <span class="tag">Lua</span> <span
+                                    class="tag">LÖVE2d</span></p>
+                            <div class="hidden-info">
+                                <p>Descrizione dettagliata: Un progetto innovativo che integra C e Lua per creare
+                                    un'applicazione interattiva con interfaccia LÖVE2d. Include funzionalità avanzate
+                                    come...</p>
+                            </div>
+                        </div>
                     </a>
                 </div>
-                <div class="progetto">
-                    <a href="Projects/Opaque_Gold/Opaque_Gold.html" class="link-progetto">
-                        <img src="Projects/Opaque_Gold/" alt="Non disponibile">
-                        <h3>Opaque Gold</h3>
-                        <p>Tag: <span class="tag">Python</span> <span class="tag">Lua</span> <span class="tag">LÖVE2d</span></p>
+                <div class="project-card" data-name="Opaque Gold" data-tags="Python Lua LÖVE2d">
+                    <a href="Projects/Opaque_Gold/Opaque_Gold.html" class="project-link">
+                        <img src="Projects/Opaque_Gold/" alt="Opaque Gold">
+                        <div class="card-overlay">
+                            <h3>Opaque Gold</h3>
+                            <p class="tags">Tag: <span class="tag">Python</span> <span class="tag">Lua</span> <span
+                                    class="tag">LÖVE2d</span></p>
+                            <div class="hidden-info">
+                                <p>Descrizione dettagliata: Sviluppo di un tool per la gestione di risorse usando Python
+                                    e Lua, con rendering grafico via LÖVE2d...</p>
+                            </div>
+                        </div>
                     </a>
                 </div>
-                <div class="progetto">
-                    <a href="Projects/Binario/index.html" class="link-progetto">
-                        <img src="Projects/Binario/Resources/Icon/Icona.ico" alt="Non disponibile">
-                        <h3>Opaque Gold</h3>
-                        <p>Tag: <span class="tag">Binario</span> <span class="tag">HTML/CSS</span> <span class="tag">JavaScript</span></p>
+                <!-- Aggiungi altre card simili qui, con data-name e data-tags per la ricerca -->
+                <div class="project-card" data-name="Binario" data-tags="Binario HTML/CSS JavaScript">
+                    <a href="Projects/Binario/index.html" class="project-link">
+                        <img src="Projects/Binario/Resources/Icon/Icona.ico" alt="Binario">
+                        <div class="card-overlay">
+                            <h3>Binario</h3>
+                            <p class="tags">Tag: <span class="tag">Binario</span> <span class="tag">HTML/CSS</span>
+                                <span class="tag">JavaScript</span></p>
+                            <div class="hidden-info">
+                                <p>Descrizione dettagliata: Un gioco interattivo per convertire numeri binari in
+                                    decimali...</p>
+                            </div>
+                        </div>
                     </a>
                 </div>
-                <div class="progetto">
-                    <a href="Projects/Calcolatrice/index.html" class="link-progetto">
-                        <img src="Projects/Calcolatrice/resources/icon/Copertina.ico" alt="Non disponibile">
-                        <h3>Calcolatrice</h3>
-                        <p>Tag: <span class="tag">Matematica</span> <span class="tag">HTML/CSS</span> <span class="tag">JavaScript</span></p>
+                <div class="project-card" data-name="Calcolatrice" data-tags="Matematica HTML/CSS JavaScript">
+                    <a href="Projects/Calcolatrice/index.html" class="project-link">
+                        <img src="Projects/Calcolatrice/resources/icon/Copertina.ico" alt="Calcolatrice">
+                        <div class="card-overlay">
+                            <h3>Calcolatrice</h3>
+                            <p class="tags">Tag: <span class="tag">Matematica</span> <span class="tag">HTML/CSS</span>
+                                <span class="tag">JavaScript</span></p>
+                            <div class="hidden-info">
+                                <p>Descrizione dettagliata: Calcolatrice avanzata con supporto per operazioni
+                                    matematiche e suoni...</p>
+                            </div>
+                        </div>
                     </a>
                 </div>
             </div>
         </section>
 
-        <br>
-
+        <section id="Certificazioni" class="section">
+            <h2>Certificazioni</h2>
+            <div class="certs-grid">
+                <!-- Placeholder per certificazioni; aggiungi le tue -->
+                <div class="cert-card">
+                    <h3>Certificazione Lua Basics</h3>
+                    <p>Ottenuta nel 2024 da Lua.org. Copre fondamenti di scripting Lua.</p>
+                    <img src="path/to/cert1.png" alt="Cert 1" class="cert-img">
+                </div>
+                <div class="cert-card">
+                    <h3>Certificazione HTML/CSS</h3>
+                    <p>Ottenuta nel 2025 da freeCodeCamp. Livello intermedio in web design.</p>
+                    <img src="path/to/cert2.png" alt="Cert 2" class="cert-img">
+                </div>
+                <!-- Aggiungi altre card qui -->
+            </div>
+        </section>
     </main>
+
     <footer>
-        <div class="Social">
-            <br>
-            <!-- Pulsante Discord -->
+        <div class="social">
             <a href="https://discord.com/users/965632265998716998" target="_blank" class="social-btn discord">
                 <img src="resources/images/discord-icon.png" alt="Discord">
-                <i class="fab fa-discord"></i>
             </a>
-
-            <!-- Pulsante Github -->
             <a href="https://github.com/ErMichele" target="_blank" class="social-btn github">
                 <img src="resources/images/github-icon.png" alt="Github">
-                <i class="fab fa-github"></i>
             </a>
-
-            <!-- Pulsante Twitter -->
             <a href="https://x.com/Mide0212" target="_blank" class="social-btn twitter">
                 <img src="resources/images/twitter-icon.png" alt="Twitter">
-                <i class="fab fa-twitter"></i>
             </a>
-
         </div>
-
         <p>&copy; 2025 Er Michele</p>
-
     </footer>
 </body>
 

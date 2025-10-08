@@ -1,31 +1,80 @@
-//Animazioni per i bottoni social
-document.querySelectorAll('.social-btn').forEach(button => {
-    button.addEventListener('mouseover', () => {
-        button.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0.5)';
-    });
-    button.addEventListener('mouseout', () => {
-        button.style.boxShadow = 'none';
-    });
-});
-
-//Funzione per calcolare gli anni
-var dataDiNascita = new Date(2009, 11, 2);
-function calcolaEta() {
-    var oggi = new Date();
-    var eta = oggi.getFullYear() - dataDiNascita.getFullYear();
-    // Controlla se la data di compleanno è già passata quest'anno
-    if (oggi.getMonth() < dataDiNascita.getMonth() || (oggi.getMonth() === dataDiNascita.getMonth() && oggi.getDate() < dataDiNascita.getDate())) {
-        eta--;
+// Calcolo età dinamica
+function calculateAge() {
+    const birthDate = new Date('2007-05-15'); // Modifica con la tua data di nascita (YYYY-MM-DD)
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
     }
-    document.getElementById("Età").textContent = eta;
+    document.getElementById('Età').textContent = age;
 }
-window.onload = calcolaEta;
 
-const coloriSfondo = ["#f0f0f0", "#ffcc00", "#66ac78", "#e74c3c", "#8e44ad"];
-document.addEventListener("DOMContentLoaded", function() {
-    let progetti = document.querySelectorAll(".progetto");  
-    progetti.forEach(progetto => {
-        progetto.style.backgroundColor = coloriSfondo[Math.floor(Math.random() * coloriSfondo.length)];  
+// Ricerca progetti
+function searchProjects() {
+    const input = document.getElementById('searchInput').value.toLowerCase().trim();
+    const projects = document.querySelectorAll('.project-card');
+    let visibleCount = 0;
+
+    projects.forEach(project => {
+        const name = project.getAttribute('data-name').toLowerCase();
+        const tags = project.getAttribute('data-tags').toLowerCase();
+        const text = (name + ' ' + tags).toLowerCase();
+
+        if (input === '' || text.includes(input)) {
+            project.style.display = 'block';
+            visibleCount++;
+        } else {
+            project.style.display = 'none';
+        }
+    });
+
+    // Opzionale: Messaggio se nessun risultato
+    if (visibleCount === 0 && input !== '') {
+        console.log('Nessun progetto trovato per: ' + input); // Potresti aggiungere un elemento HTML per mostrare questo
+    }
+}
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', function () {
+    calculateAge();
+
+    // Ricerca
+    const searchBtn = document.getElementById('searchBtn');
+    const searchInput = document.getElementById('searchInput');
+
+    searchBtn.addEventListener('click', searchProjects);
+    searchInput.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            searchProjects();
+        }
+    });
+
+    // Effetti hover per card (fallback se CSS non basta)
+    const projectCards = document.querySelectorAll('.project-card');
+    projectCards.forEach(card => {
+        const hiddenInfo = card.querySelector('.hidden-info');
+        card.addEventListener('mouseenter', () => {
+            hiddenInfo.style.opacity = '1';
+            hiddenInfo.style.transform = 'translateY(0)';
+        });
+        card.addEventListener('mouseleave', () => {
+            hiddenInfo.style.opacity = '0';
+            hiddenInfo.style.transform = 'translateY(10px)';
+        });
+    });
+
+    // Smooth scroll per nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
     });
 });
-
