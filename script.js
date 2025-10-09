@@ -1,6 +1,6 @@
 // Calcolo età dinamica
 function calculateAge() {
-    const birthDate = new Date('2007-05-15'); // Modifica con la tua data di nascita (YYYY-MM-DD)
+    const birthDate = new Date('2009-12-02');
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
@@ -29,9 +29,8 @@ function searchProjects() {
         }
     });
 
-    // Opzionale: Messaggio se nessun risultato
     if (visibleCount === 0 && input !== '') {
-        console.log('Nessun progetto trovato per: ' + input); // Potresti aggiungere un elemento HTML per mostrare questo
+        console.log('Nessun progetto trovato per: ' + input);
     }
 }
 
