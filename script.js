@@ -3,6 +3,7 @@ const CONFIG = {
     user: "ErMichele",
     repo: "ermichele.github.io",
     folder: "poesie",
+    branch: "development",
     charMap: {
         "[01]": "?",
         "[02]": "!",
@@ -84,7 +85,7 @@ function decodeFileName(fileName) {
 
 async function loadPoesie() {
     try {
-        const url = `https://api.github.com/repos/${CONFIG.user}/${CONFIG.repo}/contents/${CONFIG.folder}`;
+        const url = `https://api.github.com/repos/${CONFIG.user}/${CONFIG.repo}/contents/${CONFIG.folder}?ref=${CONFIG.branch}`;
         const response = await fetch(url);
         const files = await response.json();
 
