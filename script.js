@@ -1,13 +1,11 @@
-// --- CONFIGURAZIONE GITHUB ---
 const CONFIG = {
     user: "ErMichele",
     repo: "ermichele.github.io",
+    branch: "Development",
     folder: "poesie",
-    branch: "development",
+    updateFrequency: 24 * 60 * 60 * 1000,
     charMap: {
         "[01]": "?",
-        "[02]": "!",
-        "[03]": ":",
         "_": " "
     }
 };
@@ -71,60 +69,88 @@ function animate() {
 }
 resize(); animate();
 
-const selector = document.getElementById('fileSelector');
-const output = document.getElementById('terminalOutput');
-
-// Funzione per pulire il nome del file
-function decodeFileName(fileName) {
-    let cleanName = fileName.replace(".txt", "");
-    Object.keys(CONFIG.charMap).forEach(key => {
-        cleanName = cleanName.split(key).join(CONFIG.charMap[key]);
-    });
-    return cleanName.toUpperCase();
+// --- LOGICA DI DECODIFICA NOMI ---
+function cleanName(fileName) {
+    let name = fileName.replace(".txt", "");
+    for (let key in CONFIG.charMap) {
+        name = name.split(key).join(CONFIG.charMap[key]);
+    }
+    return name.toUpperCase();
 }
 
-async function loadPoesie() {
+// --- GESTORE AGGIORNAMENTI (GIORNALIERO) ---
+async function fetchWithCache() {
+    const lastCheck = localStorage.getItem('last_sync');
+    const cachedManifest = localStorage.getItem('manifest_data');
+    const now = Date.now();
+
+    // Se abbiamo la cache e non è passata una giornata, non disturbare il server
+    if (cachedManifest && lastCheck && (now - lastCheck < CONFIG.updateFrequency)) {
+        console.log("/// LOG: Caricamento da cache locale (Sync OK)");
+        renderMenu(JSON.parse(cachedManifest));
+        return;
+    }
+
+    console.log("/// LOG: Controllo aggiornamenti nel branch " + CONFIG.branch);
+    
+    // Costruiamo l'URL "Raw" per evitare i blocchi dell'API di GitHub
+    const manifestUrl = `https://raw.githubusercontent.com/${CONFIG.user}/${CONFIG.repo}/${CONFIG.branch}/${CONFIG.folder}/manifest.json`;
+
     try {
-        const url = `https://api.github.com/repos/${CONFIG.user}/${CONFIG.repo}/contents/${CONFIG.folder}?ref=${CONFIG.branch}`;
-        const response = await fetch(url);
-        const files = await response.json();
-
-        selector.innerHTML = '<option value="" disabled selected>-- LISTA FILE --</option>';
-
-        files.forEach(file => {
-            if (file.name.endsWith('.txt')) {
-                const option = document.createElement('option');
-                option.value = file.download_url;
-                option.textContent = decodeFileName(file.name);
-                selector.appendChild(option);
-            }
-        });
-    } catch (e) {
-        selector.innerHTML = '<option>ERRORE API</option>';
+        const response = await fetch(manifestUrl);
+        if (!response.ok) throw new Error("Manifest non trovato");
+        
+        const data = await response.json();
+        
+        // Salviamo in locale
+        localStorage.setItem('manifest_data', JSON.stringify(data.files));
+        localStorage.setItem('last_sync', now);
+        
+        renderMenu(data.files);
+    } catch (err) {
+        console.error("/// ERRORE SYNC:", err);
+        if (cachedManifest) renderMenu(JSON.parse(cachedManifest));
     }
 }
 
-selector.addEventListener('change', async (e) => {
-    const downloadUrl = e.target.value;
-    const displayName = e.target.options[e.target.selectedIndex].text;
+function renderMenu(files) {
+    const selector = document.getElementById('fileSelector');
+    if(!selector) return;
+    
+    selector.innerHTML = '<option value="" disabled selected>-- SELEZIONA LOG --</option>';
+    files.forEach(file => {
+        const opt = document.createElement('option');
+        // Creiamo l'URL diretto al file di testo
+        opt.value = `https://raw.githubusercontent.com/${CONFIG.user}/${CONFIG.repo}/${CONFIG.branch}/${file.path}`;
+        opt.textContent = cleanName(file.name);
+        selector.appendChild(opt);
+    });
+}
 
-    output.innerHTML = `<span class="prompt">Reading system_log: ${displayName}...</span>`;
+// --- LOGICA DEL TERMINALE ---
+document.getElementById('fileSelector').addEventListener('change', async (e) => {
+    const output = document.getElementById('terminalOutput');
+    const url = e.target.value;
+    const name = e.target.options[e.target.selectedIndex].text;
+
+    output.innerHTML = `<span class="prompt">guest@archive:~$ cat ${name}</span><br><span class="loading">Inizializzazione stream...</span>`;
 
     try {
-        const res = await fetch(downloadUrl);
-        const content = await res.text();
+        const res = await fetch(url);
+        const text = await res.text();
         
+        // Simuliamo un piccolo delay di caricamento "cyber"
         setTimeout(() => {
             output.innerHTML = `
-                <div class="poem-title">/// SUBJECT: ${displayName}</div>
-                <div class="poem-content">${content}</div>
+                <div class="poem-title">/// LOG_NAME: ${name}</div>
+                <div class="poem-content">${text.replace(/\n/g, '<br>')}</div>
                 <br><span class="prompt">_ (EOF)</span>
             `;
-        }, 400);
+        }, 600);
     } catch (err) {
-        output.innerHTML = "ERRORE DI LETTURA.";
+        output.innerHTML = `<span style="color: #ff5f56">ERRORE: FILE_CORRUPTED_OR_MISSING</span>`;
     }
 });
 
-// Init
-loadPoesie();
+// Start
+fetchWithCache();

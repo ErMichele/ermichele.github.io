@@ -40,3 +40,14 @@ body { background-color: var(--bg-color); color: var(--text-color); font-family:
 /* Content overlay */
 .content-overlay { padding: 50px 10% 100px 100px; }
 .content-panel { margin-bottom: 100px; padding: 40px; background: var(--panel-bg); border-radius: 12px; border: 1px solid rgba(0, 255, 195, 0.1); backdrop-filter: blur(10px); }
+
+.loading {
+    display: inline-block;
+    overflow: hidden;
+    border-right: .15em solid var(--accent-color);
+    white-space: nowrap;
+    animation: typing 1s steps(20, end), blink-caret .75s step-end infinite;
+}
+
+@keyframes typing { from { width: 0 } to { width: 100% } }
+@keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--accent-color); } }
