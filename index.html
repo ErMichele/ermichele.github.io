@@ -20,7 +20,7 @@
 
     <main class="content-overlay">
         <section id="intro" class="content-panel">
-            <h1 class="glitch-text" data-text="THE MICHELE ARCHIVE">THE MICHELE ARCHIVE</h1>
+            <h1 class="glitch-text">THE MICHELE ARCHIVE</h1>
             <p>Sviluppatore C / Lua. Esploro sistemi a basso livello e logiche non lineari.</p>
         </section>
 
@@ -35,6 +35,10 @@
                     <h4>LUA_PROCEDURAL</h4>
                     <p>Generatore di dungeon basato su algoritmi cellulari.</p>
                 </div>
+                <div class="project-card">
+                    <h4>KERNEL_MODULES</h4>
+                    <p>Esperimenti su driver Linux e gestione della memoria.</p>
+                </div>
             </div>
         </section>
 
@@ -43,17 +47,14 @@
             <div class="terminal-container">
                 <div class="terminal-header">
                     <div class="terminal-dots"><span></span><span></span><span></span></div>
-                    <div class="terminal-title">michele@archive: ~/poesie</div>
+                    <div class="terminal-title">guest@archive: ~/human_logs</div>
                 </div>
-                <div class="terminal-body">
-                    <div class="terminal-input-row">
-                        <span class="prompt">guest@user:~/poesie$ cat</span>
-                        <select id="fileSelector" class="terminal-select">
-                            <option value="" disabled selected>Caricamento indice...</option>
-                        </select>
+                <div id="terminalBody" class="terminal-body">
+                    <div id="terminalHistory" class="terminal-history">
                     </div>
-                    <div id="terminalOutput" class="terminal-output">
-                        <p class="placeholder-text">Seleziona un log per visualizzare i dati...</p>
+                    <div class="terminal-input-area">
+                        <span class="prompt">guest@archive:~$</span>
+                        <input type="text" id="terminalInput" class="terminal-main-input" spellcheck="false" autofocus>
                     </div>
                 </div>
             </div>
