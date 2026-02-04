@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Michele Archive</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500&family=Space+Grotesk:wght@400;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <canvas id="physicsCanvas"></canvas>
 
@@ -15,7 +19,8 @@
         <div class="nav-line"></div>
         <a href="#intro" class="nav-node active" data-target="intro"><span class="node-label">/// INTRO</span></a>
         <a href="#progetti" class="nav-node" data-target="progetti"><span class="node-label">/// PROGETTI</span></a>
-        <a href="#terminal-section" class="nav-node" data-target="terminal-section"><span class="node-label">/// HUMAN_LOGS</span></a>
+        <a href="#terminal-section" class="nav-node" data-target="terminal-section"><span class="node-label">///
+                HUMAN_LOGS</span></a>
     </nav>
 
     <main class="content-overlay">
@@ -52,7 +57,7 @@
                 <div id="terminalBody" class="terminal-body">
                     <div id="terminalHistory" class="terminal-history">
                     </div>
-                    <div class="terminal-input-area">
+                    <div class="terminal-input-area" id="inputArea">
                         <span class="prompt">guest@archive:~$</span>
                         <input type="text" id="terminalInput" class="terminal-main-input" spellcheck="false" autofocus>
                     </div>
@@ -63,4 +68,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

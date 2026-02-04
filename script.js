@@ -76,16 +76,17 @@ function animate() {
 const terminalInput = document.getElementById('terminalInput');
 const terminalHistory = document.getElementById('terminalHistory');
 const terminalBody = document.getElementById('terminalBody');
+const inputArea = document.getElementById('inputArea');
 
-const SCRIPT_URL = '';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby9vlBV7U-_EjEFRnbbDWNLycAyGqORC6LH0JIRs84FdJy6DCmC4nbprQSdntzWZ9XrSw/exec';
 const DEFAULT_LOGS = [
-    { name: 'Introduction.txt', content: 'This is my personal archive of poetry and thoughts. It may differ from a standard developer portfolio, but it is my own.' },
-    { name: 'Poem1.txt', content: 'Roses are red,\nViolets are blue,\nCode is poetry,\nAnd so are you.' },
+    { name: 'INTRODUCTION.txt', content: 'This is my personal archive of poetry and thoughts.\nIt may differ from a standard developer portfolio, but it is my own.' }
 ];
 
 let VIRTUAL_FS = {};
 let selectedIndex = -1;
 let isSelectionMode = false;
+let isTyping = false; // Flag to prevent multiple inputs during typing
 
 async function fetchWithRetry(url, retries = 5, delay = 1000) {
     try {
@@ -99,6 +100,41 @@ async function fetchWithRetry(url, retries = 5, delay = 1000) {
         }
         throw error;
     }
+}
+
+// Typewriter Effect Function
+function typeWriter(element, text, speed = 15) {
+    return new Promise(resolve => {
+        let i = 0;
+        element.classList.add('typing-cursor'); // Add blinking cursor
+
+        function type() {
+            if (i < text.length) {
+                // Handle HTML tags (don't type them char by char)
+                if (text.charAt(i) === '<') {
+                    let tag = '';
+                    while (text.charAt(i) !== '>' && i < text.length) {
+                        tag += text.charAt(i);
+                        i++;
+                    }
+                    tag += '>';
+                    i++;
+                    element.innerHTML += tag;
+                } else {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                }
+
+                // Scroll to bottom while typing
+                terminalBody.scrollTop = terminalBody.scrollHeight;
+                setTimeout(type, speed);
+            } else {
+                element.classList.remove('typing-cursor'); // Remove cursor
+                resolve();
+            }
+        }
+        type();
+    });
 }
 
 async function initializeFileSystem() {
@@ -117,29 +153,42 @@ async function initializeFileSystem() {
     } catch (err) {
         addLine("<span class='output-error'>Warning: Sync failed. Using cached files.</span>");
     }
-    addLine("Type 'ls' to see files. Use arrows to select.");
+    addLine("Type 'help' to see available commands.");
 }
 
 const COMMANDS = {
     'help': () => "Available: ls, cat [file], clear, whoami. (Use arrows in ls mode)",
     'ls': () => {
+        // Deactivate any previous lists
+        document.querySelectorAll('.output-ls.active').forEach(el => el.classList.remove('active'));
+
         const keys = Object.keys(VIRTUAL_FS);
         if (keys.length === 0) return "Archive is empty.";
-        
+
         isSelectionMode = true;
         selectedIndex = 0;
-        
-        const fileList = keys.map((f, i) => 
+
+        const fileList = keys.map((f, i) =>
             `<div class="file-item ${i === 0 ? 'selected' : ''}" data-index="${i}" onclick="runCat('${f}')">${f}</div>`
         ).join('');
-        
-        return `<div class="output-ls" id="ls-container">${fileList}</div>`;
+
+        return { type: 'html', content: `<div class="output-ls active">${fileList}</div>` };
     },
     'cat': (args) => {
         if (!args[0]) return '<span class="output-error">Error: specify a file.</span>';
         const content = VIRTUAL_FS[args[0]];
-        if (!content) return `<span class="output-error">Error: '${args[0]}' not found.</span>`;
-        return `<div class="output-text">${content.replace(/\n/g, '<br>')}</div>`;
+        const formatted = content.split('\n').map(line => {
+            // If the line is empty, return a spacer div
+            if (line.trim() === '') return '<div class="log-break"></div>';
+            // Otherwise, return a text row
+            return `<div class="log-row">${line}</div>`;
+        }).join('');
+
+        return {
+            type: 'text',
+            content: `<div class="output-text">${formatted}</div>`,
+            animate: true
+        };
     },
     'clear': () => {
         terminalHistory.innerHTML = '';
@@ -149,34 +198,69 @@ const COMMANDS = {
     'whoami': () => "guest@archive - Limited Access"
 };
 
-function runCat(filename) {
+async function runCat(filename) {
+    if (isTyping) return; // Prevent action while typing
+
     addLine(`cat ${filename}`, true);
-    const output = COMMANDS['cat']([filename]);
-    addLine(output);
+    const result = COMMANDS['cat']([filename]);
+
+    if (result) {
+        await addLine(result.content, false, result.animate);
+    }
+
+    // Cleanup state
     isSelectionMode = false;
     selectedIndex = -1;
+    document.querySelectorAll('.output-ls.active').forEach(el => el.classList.remove('active'));
 }
 
 function updateSelection() {
-    const items = document.querySelectorAll('.file-item');
+    const activeContainer = document.querySelector('.output-ls.active');
+    if (!activeContainer) return;
+
+    const items = activeContainer.querySelectorAll('.file-item');
     items.forEach((item, i) => {
         item.classList.toggle('selected', i === selectedIndex);
     });
 }
 
-function addLine(text, isInput = false) {
+async function addLine(text, isInput = false, animate = false) {
     const line = document.createElement('div');
     line.className = 'terminal-line';
+    terminalHistory.appendChild(line);
+
     if (isInput) {
         line.innerHTML = `<span class="prompt">guest@archive:~$</span> ${text}`;
+        terminalBody.scrollTop = terminalBody.scrollHeight;
+        return Promise.resolve();
+    }
+
+    if (animate) {
+        // Disable input while animating
+        isTyping = true;
+        terminalInput.disabled = true;
+        inputArea.classList.add('disabled');
+
+        await typeWriter(line, text);
+
+        // Re-enable input
+        isTyping = false;
+        terminalInput.disabled = false;
+        inputArea.classList.remove('disabled');
+        terminalInput.focus();
     } else {
         line.innerHTML = text;
     }
-    terminalHistory.appendChild(line);
+
     terminalBody.scrollTop = terminalBody.scrollHeight;
 }
 
-terminalInput.addEventListener('keydown', (e) => {
+terminalInput.addEventListener('keydown', async (e) => {
+    if (isTyping) {
+        e.preventDefault();
+        return;
+    }
+
     const keys = Object.keys(VIRTUAL_FS);
 
     if (isSelectionMode) {
@@ -194,7 +278,7 @@ terminalInput.addEventListener('keydown', (e) => {
         }
         if (e.key === 'Enter' && terminalInput.value.trim() === '') {
             e.preventDefault();
-            runCat(keys[selectedIndex]);
+            await runCat(keys[selectedIndex]);
             terminalInput.value = '';
             return;
         }
@@ -206,10 +290,19 @@ terminalInput.addEventListener('keydown', (e) => {
 
         if (rawInput) {
             isSelectionMode = false;
+            document.querySelectorAll('.output-ls.active').forEach(el => el.classList.remove('active'));
+
             addLine(rawInput, true);
+
             if (COMMANDS[cmd]) {
-                const output = COMMANDS[cmd](args);
-                if (output !== null) addLine(output);
+                const result = COMMANDS[cmd](args);
+                if (result !== null) {
+                    if (typeof result === 'object') {
+                        await addLine(result.content, false, result.animate);
+                    } else {
+                        addLine(result);
+                    }
+                }
             } else {
                 addLine(`<span class="output-error">Command not known: ${cmd}</span>`);
             }
@@ -218,7 +311,9 @@ terminalInput.addEventListener('keydown', (e) => {
     }
 });
 
-terminalBody.addEventListener('click', () => terminalInput.focus());
+terminalBody.addEventListener('click', () => {
+    if (!isTyping) terminalInput.focus();
+});
 
 // --- NAVIGATION ---
 const observer = new IntersectionObserver((entries) => {
