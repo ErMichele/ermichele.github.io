@@ -15,7 +15,6 @@
     scroll-behavior: smooth;
 }
 
-/* HIDING SCROLLBARS */
 body::-webkit-scrollbar,
 .terminal-body::-webkit-scrollbar {
     display: none;
@@ -24,9 +23,7 @@ body::-webkit-scrollbar,
 body,
 .terminal-body {
     -ms-overflow-style: none;
-    /* IE and Edge */
     scrollbar-width: none;
-    /* Firefox */
 }
 
 body {
@@ -45,7 +42,6 @@ body {
     pointer-events: none;
 }
 
-/* Navigazione a nodi */
 .node-nav {
     position: fixed;
     left: 30px;
@@ -102,7 +98,6 @@ body {
     transform: translateX(5px);
 }
 
-/* Content layout */
 .content-overlay {
     padding: 50px 10% 100px 100px;
     max-width: 1400px;
@@ -157,7 +152,6 @@ h3 {
     margin-bottom: 8px;
 }
 
-/* Modern Terminal Interface */
 .terminal-container {
     background: var(--terminal-bg);
     border: 1px solid #333;
@@ -213,14 +207,9 @@ h3 {
     cursor: text;
 }
 
-.terminal-history {
-    margin-bottom: 0px;
-}
-
 .terminal-line {
     margin-bottom: 0px;
     line-height: 1.15;
-    /* Reduced line-height for tighter spacing */
     font-size: 0.9rem;
     white-space: pre-wrap;
     word-break: break-all;
@@ -257,12 +246,9 @@ h3 {
 
 .output-ls {
     color: var(--secondary-accent);
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 0px;
-    margin: 2px 0;
     display: flex;
     flex-direction: column;
+    margin: 2px 0;
 }
 
 .output-text {
@@ -275,22 +261,9 @@ h3 {
     color: #ff5f56;
 }
 
-.output-success {
-    color: var(--accent-color);
-}
-
-@media (max-width: 768px) {
-    .content-overlay {
-        padding: 40px 20px;
-    }
-
-    .node-nav {
-        display: none;
-    }
-
-    h1.glitch-text {
-        font-size: 2.2rem;
-    }
+.output-info {
+    color: #888;
+    font-style: italic;
 }
 
 .file-item {
@@ -337,13 +310,26 @@ h3 {
     }
 }
 
-/* Custom spacing for terminal output */
 .log-row {
     display: block;
-    line-height: 0.667;
+    line-height: 1.4;
 }
 
 .log-break {
-    height: 12px; 
+    height: 12px;
     width: 100%;
+}
+
+@media (max-width: 768px) {
+    .content-overlay {
+        padding: 40px 20px;
+    }
+
+    .node-nav {
+        display: none;
+    }
+
+    h1.glitch-text {
+        font-size: 2.2rem;
+    }
 }

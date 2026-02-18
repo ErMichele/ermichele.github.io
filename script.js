@@ -86,50 +86,26 @@ const DEFAULT_LOGS = [
 let VIRTUAL_FS = {};
 let selectedIndex = -1;
 let isSelectionMode = false;
-let isTyping = false; // Flag to prevent multiple inputs during typing
+let isTyping = false;
 
-async function fetchWithRetry(url, retries = 5, delay = 1000) {
-    try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        return await response.json();
-    } catch (error) {
-        if (retries > 0) {
-            await new Promise(res => setTimeout(res, delay));
-            return fetchWithRetry(url, retries - 1, delay * 2);
-        }
-        throw error;
-    }
-}
-
-// Typewriter Effect Function
 function typeWriter(element, text, speed = 15) {
     return new Promise(resolve => {
         let i = 0;
-        element.classList.add('typing-cursor'); // Add blinking cursor
-
+        element.classList.add('typing-cursor');
         function type() {
             if (i < text.length) {
-                // Handle HTML tags (don't type them char by char)
                 if (text.charAt(i) === '<') {
                     let tag = '';
-                    while (text.charAt(i) !== '>' && i < text.length) {
-                        tag += text.charAt(i);
-                        i++;
-                    }
-                    tag += '>';
-                    i++;
+                    while (text.charAt(i) !== '>' && i < text.length) { tag += text.charAt(i); i++; }
+                    tag += '>'; i++;
                     element.innerHTML += tag;
                 } else {
-                    element.innerHTML += text.charAt(i);
-                    i++;
+                    element.innerHTML += text.charAt(i); i++;
                 }
-
-                // Scroll to bottom while typing
                 terminalBody.scrollTop = terminalBody.scrollHeight;
                 setTimeout(type, speed);
             } else {
-                element.classList.remove('typing-cursor'); // Remove cursor
+                element.classList.remove('typing-cursor');
                 resolve();
             }
         }
@@ -142,7 +118,8 @@ async function initializeFileSystem() {
     addLine("Initializing remote connection...");
     try {
         if (SCRIPT_URL && SCRIPT_URL !== '') {
-            const remoteData = await fetchWithRetry(SCRIPT_URL);
+            const response = await fetch(SCRIPT_URL);
+            const remoteData = await response.json();
             if (Array.isArray(remoteData)) {
                 remoteData.forEach(file => { VIRTUAL_FS[file.name] = file.content; });
                 addLine("<span style='color: #00ffc3'>Remote archive synced successfully.</span>");
@@ -157,38 +134,27 @@ async function initializeFileSystem() {
 }
 
 const COMMANDS = {
-    'help': () => "Available: ls, cat [file], clear, whoami. (Use arrows in ls mode)",
+    'help': () => "Available: ls, cat [file], clear, whoami. (Use Tab to autocomplete cat commands)",
     'ls': () => {
-        // Deactivate any previous lists
         document.querySelectorAll('.output-ls.active').forEach(el => el.classList.remove('active'));
-
         const keys = Object.keys(VIRTUAL_FS);
         if (keys.length === 0) return "Archive is empty.";
-
         isSelectionMode = true;
         selectedIndex = 0;
-
         const fileList = keys.map((f, i) =>
             `<div class="file-item ${i === 0 ? 'selected' : ''}" data-index="${i}" onclick="runCat('${f}')">${f}</div>`
         ).join('');
-
         return { type: 'html', content: `<div class="output-ls active">${fileList}</div>` };
     },
     'cat': (args) => {
         if (!args[0]) return '<span class="output-error">Error: specify a file.</span>';
         const content = VIRTUAL_FS[args[0]];
+        if (!content) return `<span class="output-error">Error: file '${args[0]}' not found.</span>`;
         const formatted = content.split('\n').map(line => {
-            // If the line is empty, return a spacer div
             if (line.trim() === '') return '<div class="log-break"></div>';
-            // Otherwise, return a text row
             return `<div class="log-row">${line}</div>`;
         }).join('');
-
-        return {
-            type: 'text',
-            content: `<div class="output-text">${formatted}</div>`,
-            animate: true
-        };
+        return { type: 'text', content: `<div class="output-text">${formatted}</div>`, animate: true };
     },
     'clear': () => {
         terminalHistory.innerHTML = '';
@@ -199,51 +165,29 @@ const COMMANDS = {
 };
 
 async function runCat(filename) {
-    if (isTyping) return; // Prevent action while typing
-
+    if (isTyping) return;
     addLine(`cat ${filename}`, true);
     const result = COMMANDS['cat']([filename]);
-
-    if (result) {
-        await addLine(result.content, false, result.animate);
-    }
-
-    // Cleanup state
+    if (result) await addLine(result.content, false, result.animate);
     isSelectionMode = false;
     selectedIndex = -1;
     document.querySelectorAll('.output-ls.active').forEach(el => el.classList.remove('active'));
-}
-
-function updateSelection() {
-    const activeContainer = document.querySelector('.output-ls.active');
-    if (!activeContainer) return;
-
-    const items = activeContainer.querySelectorAll('.file-item');
-    items.forEach((item, i) => {
-        item.classList.toggle('selected', i === selectedIndex);
-    });
 }
 
 async function addLine(text, isInput = false, animate = false) {
     const line = document.createElement('div');
     line.className = 'terminal-line';
     terminalHistory.appendChild(line);
-
     if (isInput) {
         line.innerHTML = `<span class="prompt">guest@archive:~$</span> ${text}`;
         terminalBody.scrollTop = terminalBody.scrollHeight;
-        return Promise.resolve();
+        return;
     }
-
     if (animate) {
-        // Disable input while animating
         isTyping = true;
         terminalInput.disabled = true;
         inputArea.classList.add('disabled');
-
         await typeWriter(line, text);
-
-        // Re-enable input
         isTyping = false;
         terminalInput.disabled = false;
         inputArea.classList.remove('disabled');
@@ -251,34 +195,70 @@ async function addLine(text, isInput = false, animate = false) {
     } else {
         line.innerHTML = text;
     }
-
     terminalBody.scrollTop = terminalBody.scrollHeight;
 }
 
+function updateSelection() {
+    const activeContainer = document.querySelector('.output-ls.active');
+    if (!activeContainer) return;
+    const items = activeContainer.querySelectorAll('.file-item');
+    items.forEach((item, i) => item.classList.toggle('selected', i === selectedIndex));
+}
+
+// --- TAB COMPLETION LOGIC ---
 terminalInput.addEventListener('keydown', async (e) => {
-    if (isTyping) {
+    if (isTyping) { e.preventDefault(); return; }
+
+    const files = Object.keys(VIRTUAL_FS);
+
+    // Handle Tab Completion
+    if (e.key === 'Tab') {
         e.preventDefault();
+        const value = terminalInput.value.trim();
+
+        if (value.startsWith('cat ')) {
+            const partial = value.substring(4).toLowerCase();
+            const matches = files.filter(f => f.toLowerCase().startsWith(partial));
+
+            if (matches.length === 1) {
+                // Perfect match, complete it
+                terminalInput.value = `cat ${matches[0]}`;
+            } else if (matches.length > 1) {
+                // Multiple matches, show options
+                addLine(`cat ${partial}`, true);
+                addLine(`<span class="output-info">Possible matches: ${matches.join(', ')}</span>`);
+
+                // Find common prefix to help the user
+                let common = matches[0];
+                for (let i = 1; i < matches.length; i++) {
+                    while (!matches[i].toLowerCase().startsWith(common.toLowerCase()) && common !== "") {
+                        common = common.slice(0, -1);
+                    }
+                }
+                if (common.length > partial.length) {
+                    terminalInput.value = `cat ${common}`;
+                }
+            }
+        }
         return;
     }
-
-    const keys = Object.keys(VIRTUAL_FS);
 
     if (isSelectionMode) {
         if (e.key === 'ArrowDown') {
             e.preventDefault();
-            selectedIndex = (selectedIndex + 1) % keys.length;
+            selectedIndex = (selectedIndex + 1) % files.length;
             updateSelection();
             return;
         }
         if (e.key === 'ArrowUp') {
             e.preventDefault();
-            selectedIndex = (selectedIndex - 1 + keys.length) % keys.length;
+            selectedIndex = (selectedIndex - 1 + files.length) % files.length;
             updateSelection();
             return;
         }
         if (e.key === 'Enter' && terminalInput.value.trim() === '') {
             e.preventDefault();
-            await runCat(keys[selectedIndex]);
+            await runCat(files[selectedIndex]);
             terminalInput.value = '';
             return;
         }
@@ -286,16 +266,16 @@ terminalInput.addEventListener('keydown', async (e) => {
 
     if (e.key === 'Enter') {
         const rawInput = terminalInput.value.trim();
-        const [cmd, ...args] = rawInput.toLowerCase().split(' ');
+        const [cmd, ...args] = rawInput.split(' ');
+        const commandKey = cmd.toLowerCase();
 
         if (rawInput) {
             isSelectionMode = false;
             document.querySelectorAll('.output-ls.active').forEach(el => el.classList.remove('active'));
-
             addLine(rawInput, true);
 
-            if (COMMANDS[cmd]) {
-                const result = COMMANDS[cmd](args);
+            if (COMMANDS[commandKey]) {
+                const result = COMMANDS[commandKey](args);
                 if (result !== null) {
                     if (typeof result === 'object') {
                         await addLine(result.content, false, result.animate);
@@ -311,11 +291,9 @@ terminalInput.addEventListener('keydown', async (e) => {
     }
 });
 
-terminalBody.addEventListener('click', () => {
-    if (!isTyping) terminalInput.focus();
-});
+terminalBody.addEventListener('click', () => { if (!isTyping) terminalInput.focus(); });
 
-// --- NAVIGATION ---
+// --- NAVIGATION OBSERVER ---
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
