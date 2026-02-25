@@ -80,7 +80,7 @@ const inputArea = document.getElementById('inputArea');
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby9vlBV7U-_EjEFRnbbDWNLycAyGqORC6LH0JIRs84FdJy6DCmC4nbprQSdntzWZ9XrSw/exec';
 const DEFAULT_LOGS = [
-    { name: 'INTRODUCTION.txt', content: 'This is my personal archive of poetry and thoughts.\nIt may differ from a standard developer portfolio, but it is my own.' }
+    { name: 'INTRODUCTION.txt', content: 'This is my personal archive of poetry and thoughts.\nIt may differ from a standard STEM portfolio, but it is my own.' }
 ];
 
 let VIRTUAL_FS = {};
@@ -134,7 +134,11 @@ async function initializeFileSystem() {
 }
 
 const COMMANDS = {
-    'help': () => "Available: ls, cat [file], clear, whoami. (Use Tab to autocomplete cat commands)",
+    'help': () => "Available commands: ls, cat [file], sysinfo, clear, whoami. (Use Tab to autocomplete)",
+    'sysinfo': () => {
+        const uptime = Math.floor(performance.now() / 60000);
+        return `<span class="output-highlight">OS:</span> ArchiveOS v1.0 <br><span class="output-highlight">Kernel:</span> 5.15.0-lowlevel <br><span class="output-highlight">Uptime:</span> ${uptime} minutes <br><span class="output-highlight">Environment:</span> C / Lua Development <br><span class="output-highlight">Host:</span> Michele_Brain_v2.4`;
+    },
     'ls': () => {
         document.querySelectorAll('.output-ls.active').forEach(el => el.classList.remove('active'));
         const keys = Object.keys(VIRTUAL_FS);
@@ -211,7 +215,6 @@ terminalInput.addEventListener('keydown', async (e) => {
 
     const files = Object.keys(VIRTUAL_FS);
 
-    // Handle Tab Completion
     if (e.key === 'Tab') {
         e.preventDefault();
         const value = terminalInput.value.trim();
@@ -221,14 +224,11 @@ terminalInput.addEventListener('keydown', async (e) => {
             const matches = files.filter(f => f.toLowerCase().startsWith(partial));
 
             if (matches.length === 1) {
-                // Perfect match, complete it
                 terminalInput.value = `cat ${matches[0]}`;
             } else if (matches.length > 1) {
-                // Multiple matches, show options
                 addLine(`cat ${partial}`, true);
                 addLine(`<span class="output-info">Possible matches: ${matches.join(', ')}</span>`);
 
-                // Find common prefix to help the user
                 let common = matches[0];
                 for (let i = 1; i < matches.length; i++) {
                     while (!matches[i].toLowerCase().startsWith(common.toLowerCase()) && common !== "") {

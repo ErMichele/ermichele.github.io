@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,7 @@
     <title>The Michele Archive</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;500&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -22,24 +22,32 @@
 
     <main class="content-overlay">
         <section id="intro" class="content-panel">
-            <h1 class="glitch-text">THE MICHELE ARCHIVE</h1>
-            <p>Sviluppatore C / Lua. Esploro sistemi a basso livello e logiche non lineari.</p>
+            <h1 class="glitch-text" data-text="THE MICHELE ARCHIVE">THE MICHELE ARCHIVE</h1>
+            <p class="intro-text">C / Lua Developer. Exploring low-level systems and non-linear logic.</p>
+            
+            <div class="social-links">
+                <a href="https://github.com/ermichele" class="social-link" target="_blank">GitHub</a>
+                <a href="mailto:micheleacciuffi@email.com" class="social-link">Email</a>
+            </div>
         </section>
 
         <section id="progetti" class="content-panel">
             <h3>/// ARCHIVIO_PROGETTI</h3>
             <div class="projects-grid">
                 <div class="project-card">
-                    <h4>C_PHYSICS_ENGINE</h4>
-                    <p>Simulatore di particelle e vincoli strutturali in C puro.</p>
+                    <h4>The Michele Archive</h4>
+                    <p>This exact website. It isn't anything too special or complex, but it does its job perfectly and acts as an interactive playground that fits my style.</p>
+                    <a href="https://github.com/ermichele/ermichele.github.io" class="project-action" target="_blank">View Source</a>
                 </div>
                 <div class="project-card">
-                    <h4>LUA_PROCEDURAL</h4>
-                    <p>Generatore di dungeon basato su algoritmi cellulari.</p>
+                    <h4>Michex PRO</h4>
+                    <p>My very own interpreter for a custom language, written entirely in C. It was deeply satisfying to build and heavily showcases my C and low-level programming skills.</p>
+                    <a href="https://github.com/ermichele/Michex" class="project-action" target="_blank">View Source</a>
                 </div>
                 <div class="project-card">
-                    <h4>KERNEL_MODULES</h4>
-                    <p>Esperimenti su driver Linux e gestione della memoria.</p>
+                    <h4>ToPlanBlock</h4>
+                    <p>A task management web application built with Bootstrap. It functions perfectly with all needed features. Currently running locally as a student project.</p>
+                    <a href="https://github.com/ermichele/ToPlanBlock" class="project-action" target="_blank">View Source</a>
                 </div>
             </div>
         </section>
@@ -54,7 +62,7 @@
                 <div id="terminalBody" class="terminal-body">
                     <div id="terminalHistory" class="terminal-history"></div>
                     <div class="terminal-input-area" id="inputArea">
-                        <span class="prompt">guest@archive:~$</span>
+                        <span class="prompt">guest@archive: ~$</span>
                         <input type="text" id="terminalInput" class="terminal-main-input" spellcheck="false" autocomplete="off" autofocus>
                     </div>
                 </div>

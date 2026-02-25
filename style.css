@@ -113,11 +113,104 @@ body {
     backdrop-filter: blur(12px);
 }
 
+/* Added Glitch Effect */
 h1.glitch-text {
     font-size: 3.5rem;
     letter-spacing: -2px;
     color: var(--accent-color);
     margin-bottom: 10px;
+    position: relative;
+    display: inline-block;
+}
+
+h1.glitch-text::before,
+h1.glitch-text::after {
+    content: "THE MICHELE ARCHIVE";
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.8;
+}
+
+h1.glitch-text::before {
+    color: #0ff;
+    z-index: -1;
+    transform: translate(-2px, 1px);
+    animation: glitch-anim 3s infinite linear alternate-reverse;
+}
+
+h1.glitch-text::after {
+    color: #f0f;
+    z-index: -2;
+    transform: translate(2px, -1px);
+    animation: glitch-anim 2.5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+    0% {
+        clip-path: inset(10% 0 80% 0);
+        transform: translate(-2px, 1px);
+    }
+
+    20% {
+        clip-path: inset(80% 0 10% 0);
+        transform: translate(2px, -1px);
+    }
+
+    40% {
+        clip-path: inset(40% 0 30% 0);
+        transform: translate(1px, 2px);
+    }
+
+    60% {
+        clip-path: inset(90% 0 5% 0);
+        transform: translate(-1px, -2px);
+    }
+
+    80% {
+        clip-path: inset(20% 0 60% 0);
+        transform: translate(2px, 1px);
+    }
+
+    100% {
+        clip-path: inset(50% 0 30% 0);
+        transform: translate(-2px, -1px);
+    }
+}
+
+.intro-text {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    color: #aaa;
+}
+
+#intro {
+    text-align: center;
+}
+
+/* Added Social Links */
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-link {
+    color: var(--text-color);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.social-link:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    background: rgba(0, 255, 195, 0.05);
 }
 
 h3 {
@@ -139,6 +232,8 @@ h3 {
     background: rgba(255, 255, 255, 0.02);
     border-radius: 8px;
     transition: 0.3s;
+    display: flex;
+    flex-direction: column;
 }
 
 .project-card:hover {
@@ -149,7 +244,34 @@ h3 {
 .project-card h4 {
     font-family: var(--font-mono);
     color: var(--accent-color);
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+
+.project-card p {
+    color: #aaa;
+    font-size: 0.95rem;
+    flex-grow: 1;
+}
+
+/* Added Project Link Button */
+.project-action {
+    margin-top: 20px;
+    display: inline-block;
+    font-family: var(--font-mono);
+    color: var(--secondary-accent);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: 0.2s;
+}
+
+.project-action:hover {
+    color: var(--accent-color);
+}
+
+.project-action::before {
+    content: '>';
+    margin-right: 5px;
 }
 
 .terminal-container {
@@ -264,6 +386,10 @@ h3 {
 .output-info {
     color: #888;
     font-style: italic;
+}
+
+.output-highlight {
+    color: var(--accent-color);
 }
 
 .file-item {
