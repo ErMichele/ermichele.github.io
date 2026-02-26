@@ -312,3 +312,5 @@ window.onload = () => {
     animate();
     initializeFileSystem();
 };
+
+document.getElementById('age').innerText = Math.abs(Date(Date.now() - Date('2009-12-02').getTime()).getUTCFullYear() - 1970);
