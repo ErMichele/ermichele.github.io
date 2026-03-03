@@ -72,6 +72,32 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
+// --- EXPERIENCE SLIDER ---
+let currentExpIndex = 0;
+const expTrack = document.getElementById('experienceTrack');
+const expFill = document.getElementById('expProgressFill');
+const prevBtn = document.getElementById('prevExp');
+const nextBtn = document.getElementById('nextExp');
+
+function updateExpSlider() {
+    const items = document.querySelectorAll('.experience-item');
+    const total = items.length;
+    expTrack.style.transform = `translateX(-${currentExpIndex * 100}%)`;
+    expFill.style.width = `${((currentExpIndex + 1) / total) * 100}%`;
+}
+
+prevBtn.addEventListener('click', () => {
+    const total = document.querySelectorAll('.experience-item').length;
+    currentExpIndex = (currentExpIndex - 1 + total) % total;
+    updateExpSlider();
+});
+
+nextBtn.addEventListener('click', () => {
+    const total = document.querySelectorAll('.experience-item').length;
+    currentExpIndex = (currentExpIndex + 1) % total;
+    updateExpSlider();
+});
+
 // --- INTERACTIVE TERMINAL ---
 const terminalInput = document.getElementById('terminalInput');
 const terminalHistory = document.getElementById('terminalHistory');
@@ -212,80 +238,49 @@ function updateSelection() {
 // --- TAB COMPLETION LOGIC ---
 terminalInput.addEventListener('keydown', async (e) => {
     if (isTyping) { e.preventDefault(); return; }
-
     const files = Object.keys(VIRTUAL_FS);
-
     if (e.key === 'Tab') {
         e.preventDefault();
         const value = terminalInput.value.trim();
-
         if (value.startsWith('cat ')) {
             const partial = value.substring(4).toLowerCase();
             const matches = files.filter(f => f.toLowerCase().startsWith(partial));
-
             if (matches.length === 1) {
                 terminalInput.value = `cat ${matches[0]}`;
             } else if (matches.length > 1) {
                 addLine(`cat ${partial}`, true);
                 addLine(`<span class="output-info">Possible matches: ${matches.join(', ')}</span>`);
-
                 let common = matches[0];
                 for (let i = 1; i < matches.length; i++) {
                     while (!matches[i].toLowerCase().startsWith(common.toLowerCase()) && common !== "") {
                         common = common.slice(0, -1);
                     }
                 }
-                if (common.length > partial.length) {
-                    terminalInput.value = `cat ${common}`;
-                }
+                if (common.length > partial.length) terminalInput.value = `cat ${common}`;
             }
         }
         return;
     }
-
     if (isSelectionMode) {
-        if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            selectedIndex = (selectedIndex + 1) % files.length;
-            updateSelection();
-            return;
-        }
-        if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            selectedIndex = (selectedIndex - 1 + files.length) % files.length;
-            updateSelection();
-            return;
-        }
-        if (e.key === 'Enter' && terminalInput.value.trim() === '') {
-            e.preventDefault();
-            await runCat(files[selectedIndex]);
-            terminalInput.value = '';
-            return;
-        }
+        if (e.key === 'ArrowDown') { e.preventDefault(); selectedIndex = (selectedIndex + 1) % files.length; updateSelection(); return; }
+        if (e.key === 'ArrowUp') { e.preventDefault(); selectedIndex = (selectedIndex - 1 + files.length) % files.length; updateSelection(); return; }
+        if (e.key === 'Enter' && terminalInput.value.trim() === '') { e.preventDefault(); await runCat(files[selectedIndex]); terminalInput.value = ''; return; }
     }
-
     if (e.key === 'Enter') {
         const rawInput = terminalInput.value.trim();
         const [cmd, ...args] = rawInput.split(' ');
         const commandKey = cmd.toLowerCase();
-
         if (rawInput) {
             isSelectionMode = false;
             document.querySelectorAll('.output-ls.active').forEach(el => el.classList.remove('active'));
             addLine(rawInput, true);
-
             if (COMMANDS[commandKey]) {
                 const result = COMMANDS[commandKey](args);
                 if (result !== null) {
-                    if (typeof result === 'object') {
-                        await addLine(result.content, false, result.animate);
-                    } else {
-                        addLine(result);
-                    }
+                    if (typeof result === 'object') await addLine(result.content, false, result.animate);
+                    else addLine(result);
                 }
-            } else {
-                addLine(`<span class="output-error">Command not known: ${cmd}</span>`);
-            }
+            } else { addLine(`<span class="output-error">Command not known: ${cmd}</span>`); }
         }
         terminalInput.value = '';
     }
@@ -306,11 +301,11 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.5 });
 
 document.querySelectorAll('section').forEach(section => observer.observe(section));
+document.getElementById('age').innerText = Math.abs(new Date(Date.now() - new Date('2009-12-02').getTime()).getUTCFullYear() - 1970);
 
 window.onload = () => {
     resize();
     animate();
     initializeFileSystem();
+    updateExpSlider();
 };
-
-document.getElementById('age').innerText = Math.abs(Date(Date.now() - Date('2009-12-02').getTime()).getUTCFullYear() - 1970);
